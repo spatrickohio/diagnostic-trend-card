@@ -88,8 +88,8 @@ function drawSeries(data, series, activePoint) {
   polyline.setAttribute("points", points.join(" "));
   polyline.setAttribute("fill", "none");
   polyline.setAttribute("stroke", series.color);
-  polyline.setAttribute("stroke-width", series.key === "power" ? "4" : "2");
-  polyline.setAttribute("opacity", series.key === "power" ? "1" : "0.75");
+  polyline.setAttribute("stroke-width", series.key === "power" ? "3" : "3");
+polyline.setAttribute("opacity", "1");
   svg.appendChild(polyline);
 
   data.forEach((point, index) => {
