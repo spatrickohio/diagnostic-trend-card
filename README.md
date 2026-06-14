@@ -157,12 +157,26 @@ The objective is to provide useful information that helps identify developing pr
 
 ## Project Status
 
-**Current Version:** Prototype V1
+**Current Version:** Prototype V2
 
-**Status:** Active Development
+### Completed
+- [x] Interactive chart engine
+- [x] Historical data navigation
+- [x] Multi-trace support
+- [x] Power monitoring
+- [x] Current monitoring
+- [x] Voltage monitoring
+- [x] Power factor monitoring
+- [x] Diagnostic color standard
+
+### In Development
+- [ ] Baseline overlay
+- [ ] Runtime shading
+- [ ] Alarm markers
+- [ ] Inrush visualization
+- [ ] Home Assistant integration
 
 **Created By:** Tug's Garage
 
-Website:
-
+**Website:**
 https://spatrickohio.github.io/tugs-garage/
