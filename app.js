@@ -2,13 +2,14 @@ const chartCanvas = document.getElementById("trendChart");
 const readout = document.getElementById("readout");
 
 fetch("sample-data.json")
-  .then(response => response.json())
-  .then(data => {
-    const labels = data.map(point => point.time);
-    const powerValues = data.map(point => point.power);
+  .then((response) => response.json())
+  .then((data) => {
+    const labels = data.map((point) => point.time);
+    const powerValues = data.map((point) => point.power);
 
     const chart = new Chart(chartCanvas, {
       type: "line",
+
       data: {
         labels: labels,
         datasets: [
@@ -25,70 +26,86 @@ fetch("sample-data.json")
           }
         ]
       },
+
       options: {
         responsive: true,
         maintainAspectRatio: false,
+
         interaction: {
           mode: "nearest",
           intersect: false
         },
+
         plugins: {
           legend: {
             labels: {
-              color: "white"
+              color: "#ffffff"
             }
           },
           tooltip: {
             enabled: true
           }
         },
+
         scales: {
           x: {
-            ticks: { color: "white" },
-            grid: { color: "#333" }
+            ticks: {
+              color: "#ffffff"
+            },
+            grid: {
+              color: "#333333"
+            }
           },
           y: {
-            ticks: { color: "white" },
-            grid: { color: "#333" },
+            ticks: {
+              color: "#ffffff"
+            },
+            grid: {
+              color: "#333333"
+            },
             title: {
               display: true,
               text: "Watts",
-              color: "white"
+              color: "#ffffff"
             }
           }
         },
+
         onHover: (event, activePoints) => {
           if (activePoints.length > 0) {
             const point = activePoints[0];
-            const time = labels[point.index];
-            const power = powerValues[point.index];
-
-            readout.innerHTML = `
-              <strong>Time:</strong> ${time}<br>
-              <strong>Power:</strong> ${power} watts
-            `;
+            updateReadout(labels[point.index], powerValues[point.index]);
           }
         }
       }
     });
 
-    chartCanvas.addEventListener("touchmove", event => {
-      const touch = event.touches[0];
-      const rect = chartCanvas.getBoundingClientRect();
-      const x = touch.clientX - rect.left;
-      const points = chart.getElementsAtEventForMode(
-        event,
-        "nearest",
-        { intersect: false },
-        true
-      );
+    chartCanvas.addEventListener(
+      "touchmove",
+      (event) => {
+        const points = chart.getElementsAtEventForMode(
+          event,
+          "nearest",
+          { intersect: false },
+          true
+        );
 
-      if (points.length > 0) {
-        const point = points[0];
-        readout.innerHTML = `
-          <strong>Time:</strong> ${labels[point.index]}<br>
-          <strong>Power:</strong> ${powerValues[point.index]} watts
-        `;
-      }
-    });
+        if (points.length > 0) {
+          const point = points[0];
+          updateReadout(labels[point.index], powerValues[point.index]);
+        }
+      },
+      { passive: true }
+    );
+  })
+  .catch((error) => {
+    readout.innerHTML = "Error loading chart data.";
+    console.error(error);
   });
+
+function updateReadout(time, power) {
+  readout.innerHTML = `
+    <strong>Time:</strong> ${time}<br>
+    <strong>Power:</strong> ${power} watts
+  `;
+}
