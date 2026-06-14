@@ -36,6 +36,15 @@ The Tug's Garage Diagnostic Trend Card follows a consistent color convention acr
 
 Using a standardized color convention allows equipment diagnostics to be interpreted quickly and consistently across different projects.
 
+## Planned Features
+
+- Baseline / Average Overlay
+- Target / Expected Overlay
+- Runtime Shading
+- Alarm Markers
+- Inrush Current Visualization
+- Home Assistant Entity Support
+
 ---
 
 ## Why This Project Exists
