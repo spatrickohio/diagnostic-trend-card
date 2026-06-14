@@ -3,22 +3,33 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Tug's Garage Diagnostic Trend Card</title>
+
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <main class="trend-card">
-    <h1>Tug's Garage Diagnostic Trend</h1>
-    <p class="subtitle">Sump Pump Power History</p>
+    <header class="card-header">
+      <h1>Tug's Garage Diagnostic Trend</h1>
+      <p>Sump Pump Electrical History</p>
+    </header>
 
-    <div class="chart-wrap">
+    <section class="legend">
+      <span><b class="power"></b> Power</span>
+      <span><b class="current"></b> Current</span>
+      <span><b class="voltage"></b> Voltage</span>
+      <span><b class="pf"></b> Power Factor</span>
+    </section>
+
+    <section class="chart-wrap">
       <svg id="chart" viewBox="0 0 800 320" preserveAspectRatio="none"></svg>
-    </div>
+    </section>
 
-    <div id="readout" class="readout">
+    <section id="readout" class="readout">
       Touch or drag across the chart to inspect history.
-    </div>
+    </section>
   </main>
 
   <script src="app.js"></script>
