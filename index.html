@@ -3,29 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Tug's Garage Diagnostic Trend Card</title>
-
   <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
   <main class="trend-card">
-    <header class="card-header">
-      <h1>Tug's Garage Diagnostic Trend</h1>
-      <p>Sump Pump Power History</p>
-    </header>
+    <h1>Tug's Garage Diagnostic Trend</h1>
+    <p class="subtitle">Sump Pump Power History</p>
 
-    <section class="chart-box">
-      <canvas id="trendChart"></canvas>
-    </section>
+    <div class="chart-wrap">
+      <svg id="chart" viewBox="0 0 800 320" preserveAspectRatio="none"></svg>
+    </div>
 
-    <section id="readout" class="readout">
+    <div id="readout" class="readout">
       Touch or drag across the chart to inspect history.
-    </section>
+    </div>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
