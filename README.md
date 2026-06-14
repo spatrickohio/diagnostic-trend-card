@@ -1,5 +1,13 @@
 # Tug's Garage Diagnostic Trend Card
 
+---
+
+> ⚠️ Early Prototype
+>
+> This project is under active development and is not yet ready for production use.
+
+---
+
 ## Project Goal
 
 Turn historical sensor data into actionable equipment diagnostics.
