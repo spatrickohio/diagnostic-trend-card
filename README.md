@@ -20,6 +20,22 @@ The goal is not simply to display sensor values, but to identify patterns, trend
 
 ---
 
+## Tug's Garage Diagnostic Color Standard
+
+The Tug's Garage Diagnostic Trend Card follows a consistent color convention across Home Assistant dashboards, GitHub projects, and future custom cards.
+
+| Metric | Color | Hex |
+|---------|---------|---------|
+| Power | Green | #4CAF50 |
+| Current | Blue | #4A90E2 |
+| Voltage | Magenta | #E040FB |
+| Power Factor | Amber | #FFB300 |
+| Alarm / Fault | Red | #F44336 |
+| Target / Reference | White | #FFFFFF |
+| Baseline / Average | Gray | #9E9E9E |
+
+Using a standardized color convention allows equipment diagnostics to be interpreted quickly and consistently across different projects.
+
 ## Why This Project Exists
 
 While monitoring equipment in Home Assistant, a limitation became apparent:
