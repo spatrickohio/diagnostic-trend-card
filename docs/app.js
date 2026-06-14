@@ -24,7 +24,7 @@ const seriesConfig = [
     key: "voltage",
     label: "Voltage",
     unit: "V",
-    color: "#5C6BC0",
+    color: "#26C6DA",
     min: 118,
     max: 124
   },
