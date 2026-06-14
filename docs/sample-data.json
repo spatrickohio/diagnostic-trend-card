@@ -1,15 +1,15 @@
 [
-  { "time": "00:00", "power": 0 },
-  { "time": "01:00", "power": 0 },
-  { "time": "02:00", "power": 410 },
-  { "time": "02:05", "power": 385 },
-  { "time": "02:10", "power": 0 },
-  { "time": "06:00", "power": 0 },
-  { "time": "09:30", "power": 425 },
-  { "time": "09:35", "power": 392 },
-  { "time": "09:40", "power": 0 },
-  { "time": "14:00", "power": 0 },
-  { "time": "18:15", "power": 430 },
-  { "time": "18:20", "power": 390 },
-  { "time": "18:25", "power": 0 }
+  { "time": "00:00", "power": 0, "current": 0, "voltage": 121.2, "powerFactor": 0 },
+  { "time": "01:00", "power": 0, "current": 0, "voltage": 121.1, "powerFactor": 0 },
+  { "time": "02:00", "power": 410, "current": 3.55, "voltage": 120.8, "powerFactor": 0.95 },
+  { "time": "02:05", "power": 385, "current": 3.32, "voltage": 120.6, "powerFactor": 0.96 },
+  { "time": "02:10", "power": 0, "current": 0, "voltage": 121.0, "powerFactor": 0 },
+  { "time": "06:00", "power": 0, "current": 0, "voltage": 121.4, "powerFactor": 0 },
+  { "time": "09:30", "power": 425, "current": 3.68, "voltage": 120.5, "powerFactor": 0.96 },
+  { "time": "09:35", "power": 392, "current": 3.39, "voltage": 120.7, "powerFactor": 0.95 },
+  { "time": "09:40", "power": 0, "current": 0, "voltage": 121.3, "powerFactor": 0 },
+  { "time": "14:00", "power": 0, "current": 0, "voltage": 121.5, "powerFactor": 0 },
+  { "time": "18:15", "power": 430, "current": 3.72, "voltage": 120.4, "powerFactor": 0.96 },
+  { "time": "18:20", "power": 390, "current": 3.37, "voltage": 120.7, "powerFactor": 0.95 },
+  { "time": "18:25", "power": 0, "current": 0, "voltage": 121.2, "powerFactor": 0 }
 ]
