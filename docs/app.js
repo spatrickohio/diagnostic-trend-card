@@ -99,7 +99,7 @@ polyline.setAttribute("opacity", "1");
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", x);
     circle.setAttribute("cy", y);
-    circle.setAttribute("r", activePoint === point ? "6" : "3");
+    circle.setAttribute("r", activePoint === point ? "5" : "2");
     circle.setAttribute("fill", series.color);
     circle.setAttribute("opacity", series.key === "power" ? "1" : "0.8");
     svg.appendChild(circle);
