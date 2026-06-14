@@ -3,7 +3,39 @@ const readout = document.getElementById("readout");
 
 const chartWidth = 800;
 const chartHeight = 320;
-const padding = 32;
+const padding = 34;
+
+const seriesConfig = [
+  {
+    key: "power",
+    label: "Power",
+    unit: "W",
+    color: "#4CAF50",
+    max: 500
+  },
+  {
+    key: "current",
+    label: "Current",
+    unit: "A",
+    color: "#4A90E2",
+    max: 5
+  },
+  {
+    key: "voltage",
+    label: "Voltage",
+    unit: "V",
+    color: "#5C6BC0",
+    min: 118,
+    max: 124
+  },
+  {
+    key: "powerFactor",
+    label: "Power Factor",
+    unit: "",
+    color: "#FFB300",
+    max: 1
+  }
+];
 
 fetch("sample-data.json")
   .then((response) => response.json())
@@ -21,6 +53,10 @@ fetch("sample-data.json")
       updateReadout(point);
       drawChart(data, point);
     });
+
+    svg.addEventListener("pointerleave", () => {
+      drawChart(data);
+    });
   })
   .catch(() => {
     readout.textContent = "Error loading sample-data.json";
@@ -29,19 +65,21 @@ fetch("sample-data.json")
 function drawChart(data, activePoint = null) {
   svg.innerHTML = "";
 
-  const maxPower = Math.max(...data.map((p) => p.power), 500);
-
   drawGrid();
 
-  const points = data.map((point, index) => {
-    const x =
-      padding +
-      (index / (data.length - 1)) * (chartWidth - padding * 2);
+  seriesConfig.forEach((series) => {
+    drawSeries(data, series, activePoint);
+  });
 
-    const y =
-      chartHeight -
-      padding -
-      (point.power / maxPower) * (chartHeight - padding * 2);
+  if (activePoint) {
+    drawCursor(data, activePoint);
+  }
+}
+
+function drawSeries(data, series, activePoint) {
+  const points = data.map((point, index) => {
+    const x = getX(index, data.length);
+    const y = getY(point[series.key], series);
 
     return `${x},${y}`;
   });
@@ -49,44 +87,23 @@ function drawChart(data, activePoint = null) {
   const polyline = document.createElementNS("http://www.w3.org/2000/svg", "polyline");
   polyline.setAttribute("points", points.join(" "));
   polyline.setAttribute("fill", "none");
-  polyline.setAttribute("stroke", "#4CAF50");
-  polyline.setAttribute("stroke-width", "3");
+  polyline.setAttribute("stroke", series.color);
+  polyline.setAttribute("stroke-width", series.key === "power" ? "4" : "2");
+  polyline.setAttribute("opacity", series.key === "power" ? "1" : "0.75");
   svg.appendChild(polyline);
 
   data.forEach((point, index) => {
-    const x =
-      padding +
-      (index / (data.length - 1)) * (chartWidth - padding * 2);
-
-    const y =
-      chartHeight -
-      padding -
-      (point.power / maxPower) * (chartHeight - padding * 2);
+    const x = getX(index, data.length);
+    const y = getY(point[series.key], series);
 
     const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
     circle.setAttribute("cx", x);
     circle.setAttribute("cy", y);
-    circle.setAttribute("r", activePoint === point ? "7" : "4");
-    circle.setAttribute("fill", "#4CAF50");
+    circle.setAttribute("r", activePoint === point ? "6" : "3");
+    circle.setAttribute("fill", series.color);
+    circle.setAttribute("opacity", series.key === "power" ? "1" : "0.8");
     svg.appendChild(circle);
   });
-
-  if (activePoint) {
-    const activeIndex = data.indexOf(activePoint);
-    const x =
-      padding +
-      (activeIndex / (data.length - 1)) * (chartWidth - padding * 2);
-
-    const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
-    line.setAttribute("x1", x);
-    line.setAttribute("x2", x);
-    line.setAttribute("y1", padding);
-    line.setAttribute("y2", chartHeight - padding);
-    line.setAttribute("stroke", "#ffffff");
-    line.setAttribute("stroke-width", "1");
-    line.setAttribute("stroke-dasharray", "4 4");
-    svg.appendChild(line);
-  }
 }
 
 function drawGrid() {
@@ -104,6 +121,34 @@ function drawGrid() {
   }
 }
 
+function drawCursor(data, activePoint) {
+  const activeIndex = data.indexOf(activePoint);
+  const x = getX(activeIndex, data.length);
+
+  const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+  line.setAttribute("x1", x);
+  line.setAttribute("x2", x);
+  line.setAttribute("y1", padding);
+  line.setAttribute("y2", chartHeight - padding);
+  line.setAttribute("stroke", "#ffffff");
+  line.setAttribute("stroke-width", "2");
+  line.setAttribute("stroke-dasharray", "5 5");
+  svg.appendChild(line);
+}
+
+function getX(index, totalPoints) {
+  return padding + (index / (totalPoints - 1)) * (chartWidth - padding * 2);
+}
+
+function getY(value, series) {
+  const min = series.min ?? 0;
+  const max = series.max;
+  const normalized = (value - min) / (max - min);
+  const clamped = Math.max(0, Math.min(1, normalized));
+
+  return chartHeight - padding - clamped * (chartHeight - padding * 2);
+}
+
 function getNearestPoint(event, data) {
   const rect = svg.getBoundingClientRect();
   const xPercent = (event.clientX - rect.left) / rect.width;
@@ -115,7 +160,13 @@ function getNearestPoint(event, data) {
 
 function updateReadout(point) {
   readout.innerHTML = `
-    <strong>Time:</strong> ${point.time}<br>
-    <strong>Power:</strong> ${point.power} watts
+    <div class="readout-title">Time: ${point.time}</div>
+
+    <div class="readout-grid">
+      <div><strong class="value-power">Power:</strong> ${point.power} W</div>
+      <div><strong class="value-current">Current:</strong> ${point.current} A</div>
+      <div><strong class="value-voltage">Voltage:</strong> ${point.voltage} V</div>
+      <div><strong class="value-pf">Power Factor:</strong> ${point.powerFactor}</div>
+    </div>
   `;
 }
