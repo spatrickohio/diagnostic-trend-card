@@ -46,6 +46,8 @@ Sump Pump Monitoring
 V4A Loaded Successfully
 ```
 
+![V4A Custom Card Success](Images/v4a-home-assistant-custom-card-success.jpg)
+
 ## Significance
 
 This milestone proves Tug's Garage can develop custom Home Assistant dashboard components without relying solely on third-party cards.
