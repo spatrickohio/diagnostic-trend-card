@@ -77,7 +77,7 @@ Current Home Assistant resource:
 
 Insert V4C screenshot below.
 
-![V4C Screenshot](docs/Screenshot_V4C_Home Assistant.jpg)
+![V4C Screenshot](https://github.com/spatrickohio/diagnostic-trend-card/blob/c5dbad9a5b8b7dae3cfce12a21e6f7569a76f200/docs/Images/Screenshot_V4C_Home%20Assistant.jpg)
 
 ---
 
