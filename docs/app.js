@@ -1,9 +1,13 @@
 const svg = document.getElementById("chart");
 const readout = document.getElementById("readout");
+const timeButtons = document.querySelectorAll(".time-controls button");
 
 const chartWidth = 800;
 const chartHeight = 320;
 const padding = 34;
+
+let allData = [];
+let currentHours = 24;
 
 const seriesConfig = [
   {
@@ -40,32 +44,63 @@ const seriesConfig = [
 fetch("sample-data.json")
   .then((response) => response.json())
   .then((data) => {
-    drawChart(data);
+    allData = data;
+    renderSelectedWindow();
 
-    svg.addEventListener("pointermove", (event) => {
-      const point = getNearestPoint(event, data);
-      updateReadout(point);
-      drawChart(data, point);
-    });
+    svg.addEventListener("pointermove", handlePointer);
+    svg.addEventListener("pointerdown", handlePointer);
 
-    svg.addEventListener("pointerdown", (event) => {
-      const point = getNearestPoint(event, data);
-      updateReadout(point);
-      drawChart(data, point);
-    });
+    timeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        currentHours = Number(button.dataset.hours);
 
-    svg.addEventListener("pointerleave", () => {
-      drawChart(data);
+        timeButtons.forEach((btn) => btn.classList.remove("active"));
+        button.classList.add("active");
+
+        renderSelectedWindow();
+      });
     });
   })
   .catch(() => {
     readout.textContent = "Error loading sample-data.json";
   });
 
+function renderSelectedWindow() {
+  const visibleData = getVisibleData();
+
+  drawChart(visibleData);
+
+  readout.innerHTML = `
+    <div class="readout-title">Viewing Last ${currentHours} Hours</div>
+    <div>Touch or drag across the chart to inspect history.</div>
+  `;
+}
+
+function getVisibleData() {
+  const maxHour = Math.max(...allData.map((point) => point.hour));
+  const startHour = maxHour - currentHours;
+
+  return allData.filter((point) => point.hour >= startHour);
+}
+
+function handlePointer(event) {
+  const visibleData = getVisibleData();
+  const point = getNearestPoint(event, visibleData);
+
+  updateReadout(point);
+  drawChart(visibleData, point);
+}
+
 function drawChart(data, activePoint = null) {
   svg.innerHTML = "";
 
+  if (data.length < 2) {
+    readout.textContent = "Not enough data for this time window.";
+    return;
+  }
+
   drawGrid();
+  drawTimeLabels(data);
 
   seriesConfig.forEach((series) => {
     drawSeries(data, series, activePoint);
@@ -88,8 +123,8 @@ function drawSeries(data, series, activePoint) {
   polyline.setAttribute("points", points.join(" "));
   polyline.setAttribute("fill", "none");
   polyline.setAttribute("stroke", series.color);
-  polyline.setAttribute("stroke-width", series.key === "power" ? "3" : "3");
-polyline.setAttribute("opacity", "1");
+  polyline.setAttribute("stroke-width", "3");
+  polyline.setAttribute("opacity", "1");
   svg.appendChild(polyline);
 
   data.forEach((point, index) => {
@@ -101,7 +136,6 @@ polyline.setAttribute("opacity", "1");
     circle.setAttribute("cy", y);
     circle.setAttribute("r", activePoint === point ? "5" : "2");
     circle.setAttribute("fill", series.color);
-    circle.setAttribute("opacity", series.key === "power" ? "1" : "0.8");
     svg.appendChild(circle);
   });
 }
@@ -119,6 +153,25 @@ function drawGrid() {
     line.setAttribute("stroke-width", "1");
     svg.appendChild(line);
   }
+}
+
+function drawTimeLabels(data) {
+  const firstPoint = data[0];
+  const lastPoint = data[data.length - 1];
+
+  drawText(firstPoint.time, padding, chartHeight - 8, "start");
+  drawText(lastPoint.time, chartWidth - padding, chartHeight - 8, "end");
+}
+
+function drawText(text, x, y, anchor) {
+  const label = document.createElementNS("http://www.w3.org/2000/svg", "text");
+  label.textContent = text;
+  label.setAttribute("x", x);
+  label.setAttribute("y", y);
+  label.setAttribute("fill", "#aaaaaa");
+  label.setAttribute("font-size", "13");
+  label.setAttribute("text-anchor", anchor);
+  svg.appendChild(label);
 }
 
 function drawCursor(data, activePoint) {
