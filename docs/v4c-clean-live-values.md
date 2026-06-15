@@ -77,7 +77,7 @@ Current Home Assistant resource:
 
 Insert V4C screenshot below.
 
-![V4C Screenshot](../images/v4c-screenshot.jpg)
+![V4C Screenshot](docs/Screenshot_V4C_Home Assistant.jpg)
 
 ---
 
