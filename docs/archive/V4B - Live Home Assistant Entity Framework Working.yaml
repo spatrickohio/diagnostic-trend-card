@@ -1,0 +1,22 @@
+type: custom:tugs-garage-diagnostic-card
+title: Sump Pump Monitoring
+series:
+  - entity: sensor.athom_nr1_power
+    name: Power
+    color: "#4CAF50"
+    unit: W
+
+  - entity: sensor.athom_nr1_current
+    name: Current
+    color: "#4A90E2"
+    unit: A
+
+  - entity: sensor.athom_nr1_voltage
+    name: Voltage
+    color: "#E040FB"
+    unit: V
+
+  - entity: sensor.athom_nr1_power_factor
+    name: Power Factor
+    color: "#FFB300"
+
