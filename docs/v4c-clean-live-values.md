@@ -49,6 +49,7 @@ This removes excessive decimal places and improves readability.
 | Current | Blue | #4A90E2 |
 | Voltage | Magenta | #E040FB |
 | Power Factor | Amber | #FFB300 |
+| Energy | Orange | #FF9800 |
 | Alarm | Red | #F44336 |
 | Target | White | #FFFFFF |
 | Baseline | Gray | #9E9E9E |
